@@ -2,8 +2,15 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useParams } from 'react-router-dom';
 
-export default class EditExercise extends Component {
+function withParams(Component) {
+	return props => (
+		<Component {...props} params={useParams()} />
+	);
+}
+
+class EditExercise extends Component {
 	constructor(props) {
 		super(props);
 
@@ -29,7 +36,7 @@ export default class EditExercise extends Component {
 		axios
 			.get(
 				'http://localhost:3001/exercises/' +
-					this.props.match.params.id
+					this.props.params.id
 			)
 			.then(response => {
 				this.setState({
@@ -98,7 +105,7 @@ export default class EditExercise extends Component {
 		axios
 			.post(
 				'http://localhost:3001/exercises/update/' +
-					this.props.match.params.id,
+					this.props.params.id,
 				exercise
 			)
 			.then(res => console.log(res.data));
@@ -179,3 +186,4 @@ export default class EditExercise extends Component {
 		);
 	}
 }
+export default withParams(EditExercise);
