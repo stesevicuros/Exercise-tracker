@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import { useParams } from 'react-router-dom';
 
 function withParams(Component) {
@@ -148,8 +146,10 @@ class EditExercise extends Component {
 					<div className='form-group'>
 						<label>Date: </label>
 						<div>
-							<DatePicker
-								selected={this.state.date}
+							<input
+								type='date'
+								placeholder='Select a date'
+								value={this.state.date}
 								onChange={this.onChangeDate}
 							/>
 						</div>
