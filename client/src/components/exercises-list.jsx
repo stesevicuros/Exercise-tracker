@@ -1,32 +1,28 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { axiosApp } from '../util/axiosConfig';
 
-const Exercise = props => (
+const Exercise = (props) => (
 	<tr>
 		<td>{props.exercise.username}</td>
 		<td>{props.exercise.description}</td>
 		<td>{props.exercise.duration}</td>
 		<td>{props.exercise.date.substring(0, 10)}</td>
 		<td>
-			<Link to={'/edit/' + props.exercise._id}>
-				edit
-			</Link>{' '}
-			|{' '}
+			<Link to={'/edit/' + props.exercise._id}>edit</Link> |{' '}
 			<button
 				style={{
 					border: 'none',
 					backgroundColor: 'transparent',
 					textDecoration: 'underline',
 					color: '#0d6efd',
-					padding: '0'
+					padding: '0',
 				}}
 				herf='#'
 				onClick={() => {
-					props.deleteExercise(
-						props.exercise._id
-					);
-				}}>
+					props.deleteExercise(props.exercise._id);
+				}}
+			>
 				delete
 			</button>
 		</td>
@@ -37,34 +33,31 @@ export default class ExercisesList extends Component {
 	constructor(props) {
 		super(props);
 
-		this.deleteExercise =
-			this.deleteExercise.bind(this);
+		this.deleteExercise = this.deleteExercise.bind(this);
 
 		this.state = { exercises: [] };
 	}
 
 	componentDidMount() {
-		axios
-			.get('http://localhost:3001/exercises/')
-			.then(response => {
+		axiosApp
+			.get('/exercises/')
+			.then((response) => {
 				this.setState({ exercises: response.data });
 			})
-			.catch(error => console.log(error));
+			.catch((error) => console.log(error));
 	}
 
 	deleteExercise(id) {
-		axios
-			.delete('http://localhost:3001/exercises/' + id)
-			.then(res => console.log(res.data));
+		axiosApp
+			.delete('/exercises/' + id)
+			.then((res) => console.log(res.data));
 		this.setState({
-			exercises: this.state.exercises.filter(
-				el => el._id !== id
-			)
+			exercises: this.state.exercises.filter((el) => el._id !== id),
 		});
 	}
 
 	exerciseList() {
-		return this.state.exercises.map(currentExercise => {
+		return this.state.exercises.map((currentExercise) => {
 			return (
 				<Exercise
 					exercise={currentExercise}

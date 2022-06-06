@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { axiosApp } from '../util/axiosConfig';
 
 export default class EditUsers extends Component {
 	constructor(props) {
 		super(props);
 
-		this.onChangeUsername =
-			this.onChangeUsername.bind(this);
+		this.onChangeUsername = this.onChangeUsername.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
 
 		this.state = {
-			username: ''
+			username: '',
 		};
 	}
 
 	onChangeUsername(e) {
 		this.setState({
-			username: e.target.value
+			username: e.target.value,
 		});
 	}
 
@@ -24,15 +23,13 @@ export default class EditUsers extends Component {
 		e.preventDefault();
 
 		const user = {
-			username: this.state.username
+			username: this.state.username,
 		};
 		console.log(user);
 
-		axios
-			.post('http://localhost:3001/users/add', user)
-			.then(res => console.log(res.data));
+		axiosApp.post('/users/add', user).then((res) => console.log(res.data));
 		this.setState({
-			username: ''
+			username: '',
 		});
 	}
 

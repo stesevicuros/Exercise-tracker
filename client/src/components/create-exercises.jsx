@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { axiosApp } from '../util/axiosConfig';
 
 export default class CreateExercises extends Component {
 	constructor(props) {
@@ -21,7 +21,7 @@ export default class CreateExercises extends Component {
 	}
 
 	componentDidMount() {
-		axios.get('http://localhost:3001/users/').then((response) => {
+		axiosApp.get('/users').then((response) => {
 			if (response.data.length > 0) {
 				this.setState({
 					users: response.data.map((user) => user.username),
@@ -66,8 +66,8 @@ export default class CreateExercises extends Component {
 		};
 		console.log(exercise);
 
-		axios
-			.post('http://localhost:3001/exercises/add', exercise)
+		axiosApp
+			.post('/exercises/add', exercise)
 			.then((res) => console.log(res.data));
 
 		window.location = '/';

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { axiosApp } from '../util/axiosConfig';
 import { useParams } from 'react-router-dom';
 
 function withParams(Component) {
@@ -26,8 +26,8 @@ class EditExercise extends Component {
 	}
 
 	componentDidMount() {
-		axios
-			.get('http://localhost:3001/exercises/' + this.props.params.id)
+		axiosApp
+			.get('/exercises/' + this.props.params.id)
 			.then((response) => {
 				this.setState({
 					username: response.data.username,
@@ -40,8 +40,8 @@ class EditExercise extends Component {
 				console.log(error);
 			});
 
-		axios
-			.get('http://localhost:3001/users/')
+		axiosApp
+			.get('/users')
 			.then((response) => {
 				if (response.data.length > 0) {
 					this.setState({
@@ -90,12 +90,8 @@ class EditExercise extends Component {
 
 		console.log(exercise);
 
-		axios
-			.post(
-				'http://localhost:3001/exercises/update/' +
-					this.props.params.id,
-				exercise
-			)
+		axiosApp
+			.post('/exercises/update/' + this.props.params.id, exercise)
 			.then((res) => console.log(res.data));
 
 		window.location = '/';
